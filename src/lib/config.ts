@@ -64,9 +64,9 @@ function resolveOpenAIProxyUrl(): string {
   // Local: Vite middleware proxies this (no nginx needed)
   if (import.meta.env.DEV) return "/openai-proxy.php";
 
-  // Production: set VITE_OPENAI_PROXY_URL to your Cloudflare Worker URL
-  // (see workers/openai-proxy.js — no nginx / VPS changes required)
-  return "/openai-proxy.php";
+  // Vercel production: serverless function at api/openai/chat-completions.ts
+  // (PHP proxy is for nginx hosts only)
+  return "/api/openai/chat-completions";
 }
 
 export const OPENAI_CONFIG = {

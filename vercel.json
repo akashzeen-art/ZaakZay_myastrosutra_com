@@ -4,6 +4,10 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/api/openai/chat-completions",
+      "destination": "/api/openai/chat-completions"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
