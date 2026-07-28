@@ -10,11 +10,10 @@ build/
 
 .env.*.local
 
-!.env.example
+.vercel
 
 .DS_Store
 
 .vscode/
 
-.vercel
-.env*
+!.env.example
