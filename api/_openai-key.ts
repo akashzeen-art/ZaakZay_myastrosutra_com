@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 /** Server-side only — never import from src/ client code */
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
 

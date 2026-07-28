@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
 const OPENAI_CHAT_URL = "https://api.openai.com/v1/chat/completions";
 
