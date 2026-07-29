@@ -35,7 +35,7 @@ const SubscriptionGateModal = () => {
     modalStep,
     setModalStep,
     pendingPath,
-    initiateApiPayment,
+    subscribe,
   } = useSubscription();
 
   const [mobile, setMobile] = useState("");
@@ -70,8 +70,8 @@ const SubscriptionGateModal = () => {
   const selected = SUBSCRIPTION_PLANS.find((p) => p.id === selectedPlan);
   const selectedPrice = selected?.price ?? 0;
 
-  /** After plan is chosen — open payment initiate function */
-  const handleChoosePlan = () => {
+  /** After plan is chosen — local unlock (payment initiate API disabled) */
+  const handleChoosePlan = async () => {
     setError(null);
 
     if (!selected) {
@@ -80,12 +80,16 @@ const SubscriptionGateModal = () => {
     }
 
     setLoading(true);
-    localStorage.setItem("userMobile", normalizeMobile(mobile));
-    initiateApiPayment(
-      normalizeMobile(mobile),
-      selected.id,
-      selected.price,
-    );
+    try {
+      localStorage.setItem("userMobile", normalizeMobile(mobile));
+      await subscribe(normalizeMobile(mobile), selected.id);
+      setMobile("");
+      setSelectedPlan("weekly");
+      setModalStep(1);
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
+    }
   };
 
   const serviceLabel =
@@ -254,10 +258,10 @@ const SubscriptionGateModal = () => {
               >
                 {loading ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Opening payment...
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Continuing...
                   </>
                 ) : (
-                  `Pay ₹${selectedPrice}`
+                  `Continue · ₹${selectedPrice}`
                 )}
               </Button>
             </div>
